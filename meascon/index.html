@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <style>
+        .center_row {
+            text-align: center;
+        }
+
+        .table th {
+            text-align: center;
+            vertical-align: middle !important;
+        }
+
+        .true_color {
+            background: #01579b;
+            color: white;
+        }
+
+        .false_color {
+            background: #560027;
+            color: white;
+        }
+
+        pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+        }
+
+        ul li {
+            font-size: 24px;
+        }
+
+    </style>
+</head>
+<body>
+<script>
+    id = 0
+    titles = ['ID', 'Title', 'Publisher', 'Context', 'Method', 'Addressed Issues']
+    papers = function () {
+        return [
+            paper(++id, "Data Quality Guided Incentive Mechanism Design for Crowdsensing", link('IEEE Transactions on Mobile Computing', 'https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=7755'),
+                'Crowdsensing Incentives', 'EM algorithm to calculate the effort matrix of participants',
+                ul(
+                    'Avoid inefficient sensing and unnecessary rewards',
+                    'Difficult to estimate the quality of sensing data without any prior knowledge of the sensing behavior of individual participants or the ground truth of targeted contexts',
+                    'Most of the auction based incentive mechanisms is somehow troublesome for participants and indulgent of careless behavior. Feedback on data quality would be necessary to encourage long-term, effective contributions'
+                )
+            ),
+            paper(++id, "PACE: Privacy-Preserving and Quality-Aware Incentive Mechanism for Mobile Crowdsensing", link('IEEE Transactions on Mobile Computing', 'https://ieeexplore.ieee.org/document/8999741'),
+                'Crowdsensing Incentives', 'Data quality based on the deviation between reliable data and the ground truth',
+                'Heterogeneity both sensor devices and the capability of TPs leads to differentiated data quality. The purpose of quality quantification is to quantify the effective contribution of TPs and control the real monetary reward of each TP.'),
+            paper(++id, "A Blockchain-Based Hybrid Incentive Model for Crowdsensing", link('Electronics', 'https://www.mdpi.com/2079-9292/9/2/215'),
+                'Crowdsensing', 'Rating given from requester', 'None related to quality'),
+            paper(++id, "Worker-Contributed Data Utility Measurement for Visual Crowdsensing Systems", link('IEEE Transactions on Mobile Computing', 'https://ieeexplore.ieee.org/document/7676271'),
+                ''),
+            paper(++id, "A Reverse Auction based Incentive Mechanism for Mobile Crowdsensing", link('IEEE Internet of Things Journal', 'https://ieeexplore.ieee.org/abstract/document/9075087'),
+                ''),
+            paper(++id, "Quality-Driven Auction-Based Incentive Mechanism for Mobile Crowd Sensing", link('IEEE Transactions on Vehicular Technology', 'https://ieeexplore.ieee.org/abstract/document/6928506'),
+                ''),
+            paper(++id, "", link('', ''), ''),
+        ]
+    }()
+
+    function paper(id, p1, p2, p3, p4, p5) {
+        return {id, p1, p2, p3, p4, p5}
+    }
+
+    function ul(...listData) {
+        let listElement = document.createElement('ul')
+        let numberOfListItems = listData.length
+
+        for (let i = 0; i < numberOfListItems; ++i) {
+            let listItem = document.createElement('li');
+            listItem.innerHTML = listData[i];
+            listElement.appendChild(listItem);
+        }
+        return listElement.innerHTML
+    }
+
+    function create_table(json_data) {
+        let col = [];
+        for (let i = 0; i < json_data.length; i++) {
+            for (var key in json_data[i]) {
+                if (col.indexOf(key) === -1) {
+                    col.push(key);
+                }
+            }
+        }
+
+        let table = document.createElement("table");
+        table.className = 'table table-striped table-bordered table-hover'
+
+        var tr = table.insertRow(-1);
+        for (let i = 0; i < titles.length; i++) {
+            var th = document.createElement("th");
+            th.innerHTML = titles[i];
+            tr.appendChild(th);
+        }
+
+        for (let i = 0; i < json_data.length; i++) {
+            tr = table.insertRow(-1);
+            for (let j = 0; j < col.length; j++) {
+                let tabCell = tr.insertCell(-1);
+                let content = json_data[i][col[j]]
+                if (content === 'true' || content === 'false') {
+                    tabCell.className = 'center_row' + ' ' + content + '_color'
+                    content = content === 'true' ? '✔' : '✘'
+                }
+                tabCell.innerHTML = content;
+            }
+        }
+        let divContainer = document.getElementById("showData");
+        divContainer.innerHTML = "";
+        divContainer.appendChild(table);
+    }
+
+    function link(title, link) {
+        return "<a href='" + link + "'>" + title + "</a>"
+    }
+
+
+    const card = (content) => {
+        return `<div class="card ${content.hidden ? 'hidden' : ''}" style="margin-top: 8px">\n        <div class="card-header" id="heading${content.id}">\n            <h3 class="mb-0">\n                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse${content.id}" aria-expanded="false"\n                        aria-controls="collapse${content.id}" style="font-weight: bold">\n                    ${content.title}\n                </button>\n            </h3>\n        </div>\n\n        <div id="collapse${content.id}" class="collapse" aria-labelledby="heading${content.id}" data-parent="#accordion">\n            <div class="card-body">\n                ${content.text}\n            </div>\n        </div>\n    </div>`
+    }
+    window.addEventListener('load', function () {
+        create_table(papers)
+    })
+
+</script>
+<div id="showData" style="margin: 15px"></div>
+</body>
+</html>

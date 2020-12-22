@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="card.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="analysis.js"></script>
+    <style>
+        .center_row {
+            text-align: center;
+        }
+
+        .table th {
+            text-align: center;
+            vertical-align: middle !important;
+        }
+
+        .true_color {
+            background: #01579b;
+            color: white;
+        }
+
+        .false_color {
+            background: #560027;
+            color: white;
+        }
+
+        pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+        }
+
+        ul li {
+            font-size: 24px;
+        }
+
+    </style>
+</head>
+<body>
+<script>
+    papers = [
+        {
+            number: 1,
+            title: "Motivating Workers in Federated Learning: A Stackelberg Game Perspective",
+            publisher: "IEEE Transactions on Vehicular Technology",
+            methods: 'Stackelberg',
+            incentive: 'true',
+            contribution: 'false',
+            communication: 'false',
+            resource_allocation: 'true',
+            malicious: 'false',
+            architecture: 'HORIZONTAL',
+            data: 'MNIST',
+        },
+        {
+            number: 2,
+            title: "Federated Learning for Edge Networks: Resource Optimization and Incentive Mechanism",
+            publisher: "IEEE Communications Magazine",
+            methods: 'Stackelberg',
+            incentive: 'true',
+            contribution: 'false',
+            communication: 'false',
+            resource_allocation: 'true',
+            malicious: 'false',
+            architecture: 'HORIZONTAL',
+            data: 'MNIST',
+        },
+        {
+            number: 3,
+            title: "A Learning-Based Incentive Mechanism for Federated Learning",
+            publisher: "International Conference on Internet of Things",
+            methods: 'Stackelberg, Deep Reinforcement Learning',
+            incentive: 'true',
+            contribution: 'false',
+            communication: 'false',
+            resource_allocation: 'false',
+            malicious: 'false',
+            architecture: 'HORIZONTAL',
+            data: 'MNIST',
+            note: 'calculate contributions through deep reinforcement learning using historical data'
+        },
+        {
+            number: 4,
+            title: "Joint Service Pricing and Cooperative Relay Communication for Federated Learning",
+            publisher: "IEEE Green Computing and Communications (GreenCom)",
+            methods: 'Stackelberg',
+            incentive: 'true',
+            contribution: 'false',
+            communication: 'true',
+            resource_allocation: 'true',
+            malicious: 'false',
+            architecture: 'VERTICAL<br>HORIZONTAL',
+            data: '...',
+        },
+        {
+            number: 5,
+            title: "A Hierarchical Blockchain-Enabled Federated Learning Algorithm for Knowledge Sharing in Internet of Vehicles",
+            publisher: "IEEE Transactions on Intelligent Transportation Systems ( Early Access )",
+            methods: 'Stackelberg, Blockchain',
+            incentive: 'true',
+            contribution: 'false',
+            communication: 'false',
+            resource_allocation: 'true',
+            malicious: 'true',
+            architecture: 'HORIZONTAL',
+            data: 'MNIST',
+        },
+        {
+            number: 6,
+            title: "Measure Contribution of Participants in Federated Learning",
+            publisher: " 2019 IEEE International Conference on Big Data (Big Data)",
+            methods: 'Deletion, Shapley Value',
+            incentive: 'false',
+            contribution: 'true',
+            communication: 'false',
+            resource_allocation: 'false',
+            malicious: 'false',
+            architecture: 'VERTICAL<br>HORIZONTAL',
+            data: 'Cervical cancer',
+            note: 'Data quantity alone is certainly not enough, as one party may contribute lots of data that doesn’t help much on building the model'
+        },
+        {
+            number: 7,
+            title: "Mobile Device Training Strategies in Federated Learning: An Evolutionary Game Approach",
+            publisher: "2019 International Conference on Internet of Things",
+            methods: 'Evolutionary Game',
+            incentive: 'false',
+            contribution: 'false',
+            communication: 'false',
+            resource_allocation: 'true',
+            malicious: 'false',
+            architecture: 'HORIZONTAL',
+            data: 'MNIST',
+            note: 'Asking the mobile devices to work as sacrificial volunteers is not a viable and sustainable option. Therefore, mobile devices with limited resources have to choose machine learning applications, i.e., the model owners, to contribute their training services'
+        },
+        {
+            number: 8,
+            title: "Hierarchical Incentive Mechanism Design for Federated Machine Learning in Mobile Networks",
+            publisher: " IEEE Internet of Things Journal",
+            methods: 'Contract Theory, Coalition game theory',
+            incentive: 'true',
+            contribution: 'false',
+            communication: 'true',
+            resource_allocation: 'false',
+            malicious: 'true',
+            architecture: 'HORIZONTAL',
+            data: '',
+            note: 'contract theory for incentives, coalition game theory to prevent free-riding attacks by rewarding model owners based on their marginal contributions. Participant contributions is equal to the data size used to train a model'
+        },
+        {
+            number: 9,
+            title: "Profit Allocation for Federated Learning",
+            publisher: "IEEE International Conference on Big Data",
+            methods: 'Shapley value ',
+            incentive: 'false',
+            contribution: 'true',
+            communication: 'false',
+            resource_allocation: 'false',
+            malicious: 'false',
+            architecture: 'VERTICAL',
+            data: 'MNIST',
+            note: ''
+        },
+        {
+            number: 10,
+            title: "Dynamic Games in Federated Learning Training Service Market",
+            publisher: "2019 IEEE Pacific Rim Conference on Communications, Computers and Signal Processing (PACRIM)",
+            methods: 'Evolutionary Game, Differential Game',
+            incentive: 'true',
+            contribution: 'false',
+            communication: 'false',
+            resource_allocation: 'true',
+            malicious: 'false',
+            architecture: 'HORIZONTAL',
+            data: '...',
+        }]
+
+    function create_table(json_data) {
+        var col = [];
+        for (var i = 0; i < json_data.length; i++) {
+            for (var key in json_data[i]) {
+                if (col.indexOf(key) === -1) {
+                    col.push(key);
+                }
+            }
+        }
+
+        var table = document.createElement("table");
+        table.className = 'table table-striped table-bordered table-hover'
+
+        var tr = table.insertRow(-1);
+        let titles = ['ID', 'Title', 'Publisher', 'Mechanics', 'Incentive', 'Contribution Calculation', 'Communication Cost', 'Resource Allocation', 'Malicious', 'Federated Architecture', 'DataSet', 'Note']
+        for (var i = 0; i < titles.length; i++) {
+            var th = document.createElement("th");
+            th.innerHTML = titles[i];
+            tr.appendChild(th);
+        }
+
+        for (var i = 0; i < json_data.length; i++) {
+            tr = table.insertRow(-1);
+            for (var j = 0; j < col.length - 1; j++) {
+                let tabCell = tr.insertCell(-1);
+                let content = json_data[i][col[j]]
+                if (j === 2) {
+                    content = `<button data-toggle=tooltip data-placement=top title="${content}">IEEE</button>`
+                }
+                if (content === 'true' || content === 'false') {
+                    tabCell.className = 'center_row' + ' ' + content + '_color'
+                    content = content === 'true' ? '✔' : '✘'
+                }
+                tabCell.innerHTML = content;
+            }
+            if (json_data[i][col[col.length - 1]]) {
+                let tabCell = tr.insertCell(-1);
+                tabCell.innerHTML = '<button data-toggle=tooltip data-placement=top title="' + json_data[i][col[col.length - 1]] + '">hover</button>'
+            }
+        }
+        var divContainer = document.getElementById("showData");
+        divContainer.innerHTML = "";
+        divContainer.appendChild(table);
+    }
+
+
+    const card = (content) => {
+        return `<div class="card ${content.hidden ? 'hidden' : ''}" style="margin-top: 8px">
+        <div class="card-header" id="heading${content.id}">
+            <h3 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse${content.id}" aria-expanded="false"
+                        aria-controls="collapse${content.id}" style="font-weight: bold">
+                    ${content.title}
+                </button>
+            </h3>
+        </div>
+
+        <div id="collapse${content.id}" class="collapse" aria-labelledby="heading${content.id}" data-parent="#accordion">
+            <div class="card-body">
+                ${content.text}
+            </div>
+        </div>
+    </div>`
+    }
+
+    accordion_data = [{
+        id: 25,
+        title: 'Mechanics',
+        text: point0,
+    }, {
+        id: 20,
+        title: 'Incentive (Briefly)',
+        text: point1,
+    }, {
+        id: 1,
+        title: 'Table 1',
+        text: `<img src="table1.PNG" class="center-block card card-block">`,
+    }, {
+        id: 21,
+        title: 'Contribution Calculation',
+        text: point21,
+    }, {
+        id: 2,
+        title: 'Figure 1',
+        text: `<img src="figure1.png" class="center-block card card-block">`,
+    }, {
+        id: 212,
+        title: 'Limitation',
+        text: point22,
+    }, {
+        id: 3,
+        title: 'Figure 2',
+        text: `<img src="figure2.png" class="center-block card card-block">`,
+    }, {
+        id: 4,
+        title: 'Figure 3',
+        text: `<img src="figure3.png" class="center-block card card-block">`,
+    }, {
+        id: 22,
+        title: 'Communication & Resources Allocation',
+        text: point3,
+    }, {
+        id: 23,
+        title: 'Maliciousness',
+        text: point4,
+    }, {
+        id: 5,
+        title: 'Figure 4',
+        text: `<img src="figure4.png" class="center-block card card-block">`,
+    }, {
+        id: 6,
+        title: 'Figure 5',
+        text: `<img src="figure5.png" class="center-block card card-block">`,
+    }, {
+        id: 24,
+        title: 'Summary',
+        text: point5,
+    }, {
+        id: 7,
+        title: 'Analysis',
+        text: `<pre>${analysis_text}</pre>`,
+    }]
+
+    function fill_accordion(data) {
+        let accordion_data_text = ''
+        data.forEach((row) => {
+            accordion_data_text += card(row)
+        })
+        document.getElementById('accordion').innerHTML = accordion_data_text
+    }
+
+
+    window.addEventListener('load', function () {
+        create_table(papers)
+        fill_accordion(accordion_data)
+    })
+
+</script>
+<div id="showData" style="margin: 15px"></div>
+<div id="accordion" style="margin-top: 50px;margin-left: 5%;margin-right: 5%"></div>
+</body>
+</html>
